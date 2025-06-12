@@ -1,0 +1,13 @@
+>>> A view is a stored SQL statement.it acts like a table but 
+doesn't have the data stored on the disk, whearas Materialized 
+view acts as a table having the data stored on the disk.
+
+
+>>> generally its better to use access data through views rather
+than the actual tables of the DB, sometimes the DB admin wants
+to change a column name of a certain table, rather than changing 
+it, and telling the developers, data engineers etc. to make the
+same change, he can create a view, asign the same column on the 
+view to the new column name and voila. no need to tell everyone 
+about the change.
+
