@@ -1,13 +1,3 @@
--- if elseif else 
--- case when then else end
--- while end while
-
--- create a sql statement on film_list view to return high if rent is more than 3 and low if less than 3 using if statement 
-
--- If sakila database is not created, create it using the below commands using mysql cli
--- SOURCE /usr/databases/sakila-db/sakila-schema.sql;
--- SOURCE /usr/databases/sakila-db/sakila-data.sql;
-
 USE sakila;
 SELECT title,
     price,

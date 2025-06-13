@@ -11,3 +11,9 @@ same change, he can create a view, asign the same column on the
 view to the new column name and voila. no need to tell everyone 
 about the change.
 
+
+>>> the difference between truncate and delete is that if we're 
+using for example an autoincrement column like id column, if you 
+insert a new row it will take the last value + 1 if you used the 
+delete statment, while truncate initialize the counter to 1.
+

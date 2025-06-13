@@ -1,4 +1,3 @@
--- Active: 1687117690530@@mysql-db@3306@testdb
 show databases;
 
 DROP DATABASE IF EXISTS testdb;
@@ -58,9 +57,15 @@ INSERT INTO t4 (first_name) VALUES ('sami'), ('aya');
 INSERT INTO t4 VALUES (10, 'ali');
 INSERT INTO t4 (first_name) VALUES ('hasan');
 
+INSERT INTO t4 VALUES(30,'ahmed');
+INSERT INTO t4(first_name) VALUES('eresviel');
 -- check the auto increment value
+
+TABLE t4;
+
 SHOW VARIABLES LIKE 'auto_increment%';
 
+drop table if exists t5;
 -- check constraints
 CREATE TABLE t5 (
     id INT AUTO_INCREMENT, 
@@ -73,12 +78,14 @@ DESC t5; -- won't show the check constraint
 SHOW CREATE TABLE t5; -- will show the check constraint
 -- insert a row with first_name length > 4
 INSERT INTO t5 (first_name) VALUES ('ahmed');
+TABLE t5;
 
 -- insert a row with first_name length <= 4
 INSERT INTO t5 (first_name) VALUES ('ali'); -- error
 TABLE t5;
 -- drop constraint
-ALTER TABLE t5 DROP CONSTRAINT id_unique;
+ALTER TABLE t5 DROP INDEX id_unique;
+-- you can't drop the UNIQUE constrain in id, because autoincrement is using it; 
 
 -- primay and foreign keys
 CREATE TABLE t6 (
@@ -87,6 +94,7 @@ CREATE TABLE t6 (
     CONSTRAINT id_unique UNIQUE (id)
     );
 
+drop table if exists t6;
 -- another way to define primary key
 CREATE TABLE t6 (
     id INT AUTO_INCREMENT, 
@@ -95,6 +103,16 @@ CREATE TABLE t6 (
     PRIMARY KEY (id)
     );
 
+
+ALTER TABLE t6 MODIFY id INT; -- change the type of id
+DROP INDEX id_unique ON t6; -- drop the unique constaint id_unique
+
+SHOW INDEX FROM t6; -- show constrainst 
+
+-- drop the primary key 
+ALTER TABLE t6 DROP PRIMARY KEY;
+
+DESC t6;
 -- insert a few rows into t6
 INSERT INTO t6 (first_name) VALUES ('ahmed'), ('ali'), ('aya');
 TABLE t6;
@@ -119,8 +137,15 @@ VALUES  (1, 'Math'),
         (3, 'Math');        
 TABLE t7;
 
+
+SELECT t7.id as ID ,t6.first_name as Name,t7.class as Class
+FROM 
+    t6 join t7 on t6.id = t7.id
+
 -- insert a row with non-existing id
-INSERT INTO t7 VALUES (4, 'Math'); -- error
+INSERT INTO t7 VALUES (4, 'Math');
+-- error
+-- there is no id = 4 in T6 that could be referenced T7
 DROP TABLE t1;
 DROP TABLE t2;
 DROP TABLE t3;
