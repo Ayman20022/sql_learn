@@ -1,8 +1,24 @@
--- Active: 1688236555284@@mysql-db@3306
+-- Active: 1749291334186@@127.0.0.1@3306@mysql
 -- ACID
 -- Atomicity
+
+# all the statment in a transaction should be executed as 
+# a single unit, either all of them succeed or all of them fail
+
 -- Consistency
+
+# If an accident happens before the hardening of the data in the buffer pool
+# the engine load the data on the disk to the buffer pool, execute the transaction
+# on the Redo log so it returns to its old state before the accident
+
 -- Isolation - locks
+
+# there should never be two transactions at the same time on the same record or table
+# depending on the isolation level you're adopting. 
+# Also you can't read a data page that's addressed by a transaction until its commited to the 
+# REDO log, because you aren't reading its final state.
+
+
 -- Durability - rollback
 
 

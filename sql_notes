@@ -23,3 +23,14 @@ delete statment, while truncate initialize the counter to 1.
 for example if we create an index on FIRST_NAME column, the rows 
 will be ordered alphabeticaly based on the FIRST_NAME.
 
+
+>>> TRANSACTION
+In a database context, a transaction is every statment that update
+the data inside the database, it could be an INSERT statment, UPDATE
+or DELETE statment etc.
+
+
+>>> BUFFER POOL 
+is the place in the RAM where MySQL loads data pages for handling 
+transactions
+
