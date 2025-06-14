@@ -1,24 +1,8 @@
 -- Active: 1749291334186@@127.0.0.1@3306@mysql
 -- ACID
 -- Atomicity
-
-# all the statment in a transaction should be executed as 
-# a single unit, either all of them succeed or all of them fail
-
 -- Consistency
-
-# If an accident happens before the hardening of the data in the buffer pool
-# the engine load the data on the disk to the buffer pool, execute the transaction
-# on the Redo log so it returns to its old state before the accident
-
 -- Isolation - locks
-
-# there should never be two transactions at the same time on the same record or table
-# depending on the isolation level you're adopting. 
-# Also you can't read a data page that's addressed by a transaction until its commited to the 
-# REDO log, because you aren't reading its final state.
-
-
 -- Durability - rollback
 
 
@@ -50,7 +34,11 @@ UPDATE t1 SET first_name = 'sawsan' WHERE id = 1;
 -- check the t1 rows from another session
 table t1;
 -- commit transaction
-COMMIT; -- or ROLLBACK;
+COMMIT; -- or ROLLBACK; -- the transaction will be committed
+-- to the REDO/Transaction log.
+
+-- if you read before commit you're reading the dirty page/record and only
+-- the owner of the transaction can read the dirty page.
 
 TABLE t1;
 
@@ -59,7 +47,7 @@ START TRANSACTION;
 -- update t1
 UPDATE t1 SET first_name = 'fekri' WHERE id = 1;
 
-ROLLBACK;
+ROLLBACK; -- cancel the changes you did on the buffer pool
 
 TABLE t1;
 
@@ -83,15 +71,22 @@ UPDATE t1 SET first_name = 'fekri' WHERE id = 1;
 -- buffer pool, redo logs, flush to disk 
 /*
 Atomicity
-    All changes to data are performed as if they are a single operation. That is, all the changes are performed, or none of them are.
-    For example, in an application that transfers funds from one account to another, the atomicity property ensures that, if a debit is made successfully from one account, the corresponding credit is made to the other account.
+    All changes to data are performed as if they are a single operation. That is, all the changes are performed,
+     or none of them are.For example, in an application that transfers funds from one account to another, 
+     the atomicity property ensures that, if a debit is made successfully from one account, the corresponding 
+     credit is made to the other account.
 Consistency
     Data is in a consistent state when a transaction starts and when it ends.
-    For example, in an application that transfers funds from one account to another, the consistency property ensures that the total value of funds in both the accounts is the same at the start and end of each transaction.
+    For example, in an application that transfers funds from one account to another,
+    the consistency property ensures that the total value of funds in both the accounts
+    is the same at the start and end of each transaction.
 Isolation
-    The intermediate state of a transaction is invisible to other transactions. As a result, transactions that run concurrently appear to be serialized.
-    For example, in an application that transfers funds from one account to another, the isolation property ensures that another transaction sees the transferred funds in one account or the other, but not in both, nor in neither.
+    The intermediate state of a transaction is invisible to other transactions. As a result, transactions
+    that run concurrently appear to be serialized. For example, in an application that transfers funds from
+    one account to another, the isolation property ensures that another transaction sees the transferred 
+    funds in one account or the other, but not in both, nor in neither.
 Durability
-    After a transaction successfully completes, changes to data persist and are not undone, even in the event of a system failure.
-    For example, in an application that transfers funds from one account to another, the durability property ensures that the changes made to each account will not be reversed. 
+    After a transaction successfully completes, changes to data persist and are not undone, even in the event
+    of a system failure.For example, in an application that transfers funds from one account to another, 
+    the durability property ensures that the changes made to each account will not be reversed. 
 */
