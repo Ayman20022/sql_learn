@@ -17,3 +17,9 @@ using for example an autoincrement column like id column, if you
 insert a new row it will take the last value + 1 if you used the 
 delete statment, while truncate initialize the counter to 1.
 
+
+>>> INDEXES: 
+1- CLUSTERED Index : it orders the rows data inside the data pages
+for example if we create an index on FIRST_NAME column, the rows 
+will be ordered alphabeticaly based on the FIRST_NAME.
+
